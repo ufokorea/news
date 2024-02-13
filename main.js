@@ -1,10 +1,69 @@
 const api_key = "49f195a4d85e4de2a00970d6a3d37c15";
 
+
+let searchitem = document.getElementById("searchitem");
+let searchstart = document.getElementById("searchstart"); 
+let menus=document.querySelectorAll(".buttonstyle button");
+let sidemenus=document.querySelectorAll(".side-menu-list button");
 let newslist = [];
 
 
+const openNav = () => {
+    document.getElementById("mySidenav").style.width = "250px";
+    };
+  
+const closeNav = () => {
+    document.getElementById("mySidenav").style.width = "0";
+    };
+
+const openSearchBox = () => {
+    let inputArea = document.getElementById("input-area");
+    if (inputArea.style.display === "inline") {
+        inputArea.style.display = "none";
+    } else {
+        inputArea.style.display = "inline";
+    }
+    };
+
+searchstart.addEventListener("click", function() {
+    getsearchitem(searchitem.value); 
+});
+    
+
+for (let i = 0; i < sidemenus.length; i++) {
+    sidemenus[i].addEventListener("click", function() {
+        getmenuitem(this.textContent.toLowerCase()); 
+    });
+}
+
+for (let i = 0; i < menus.length; i++) {
+    menus[i].addEventListener("click", function() {
+        getmenuitem(this.textContent.toLowerCase()); 
+    });
+}
+
+let getsearchitem = async (sitem)=> {
+
+    url = new URL(`https://newsapi.org/v2/top-headlines?country=kr&q=${sitem}&apiKey=${api_key}`)
+    const response = await fetch(url);
+    const data = await response.json();
+    newslist = data.articles;
+    console.log(data)
+    randering();
+}
+
+let getmenuitem = async (menu)=> {
+
+    url = new URL(`https://newsapi.org/v2/top-headlines?country=kr&category=${menu}&apiKey=${api_key}`)
+    const response = await fetch(url);
+    const data = await response.json();
+    newslist = data.articles;
+    console.log(data)
+    randering();
+}
+
 let getnewslist = async ()=> {
-    url = new URL(`https://newsapi.org/v2/top-headlines?country=kr&apiKey=49f195a4d85e4de2a00970d6a3d37c15`)
+    url = new URL(`https://newsapi.org/v2/top-headlines?country=kr&apiKey=${api_key}`)
     const response = await fetch(url);
     const data = await response.json();
     newslist = data.articles;
@@ -14,19 +73,24 @@ let getnewslist = async ()=> {
 
 randering = () => {
     
-    const putHtml = newslist.map((news) => 
-    `<div class="row newslistpad">
+    const putHtml = newslist.map(function(news) { 
+    
+    const description = news.description === null ? "내용없음" : (news.description.length > 200 ? news.description.substring(0, 200) + "..." : news.description);
+    const imageUrl = news.urlToImage ? news.urlToImage : "https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png";
+    const source = news.source.name ? news.source.name : "No Source";
+    const publish = moment().endOf('Day').fromNow(news.publishedAt); 
+    return `<div class="row newslistpad">
         <div class="col-lg-4">
         <img class="imgsize"
-            src="${news.urlToImage}" 
+            src="${imageUrl}" 
         />
         </div>
         <div class="col-lg-8">
         <h2>${news.title}</h2>
-        <p>${news.description}</p>
-        ${news.source.name} * ${news.publishedAt}
+        <p>${description}</p>
+        ${source} * ${publish}
         </div>
-    </div>`).join('');
+    </div>`}).join('');
 
   document.getElementById("putnews").innerHTML=putHtml;
 

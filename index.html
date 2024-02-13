@@ -9,8 +9,30 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <div class="side-menu" id="mySidenav">
+      <button class="closebtn" onclick="closeNav()">&times;</button>
+      <div class="side-menu-list" id="menu-list">
+        <button>Business</button>
+        <button>Entertainment</button>
+        <button>General</button>    
+        <button>Health</button>                        
+        <button>Science</button>          
+        <button>Sport</button>
+        <button>Technology</button>
+      </div>
+    </div>  
+
     <div class="container">
+      <div class="mobilemenu">
+        <i class="fa-solid fa-bars" onclick="openNav()"></i>
+        <i class="fa-solid fa-magnifying-glass"onclick="openSearchBox()"></i>
+      </div>
       <section>
+        <div class="searchstyle" id="input-area">
+
+            <input id="searchitem" type="text"><button type="button" class="btn btn-primary btn-sm" id="searchstart">search</button>
+
+        </div>
         <div class="logo">
           <svg viewBox="0 0 184 25" fill="#000" aria-hidden="true">
             <path
@@ -18,43 +40,25 @@
             ></path>
           </svg>
         </div>
+
         <div class="buttonstyle">
-          <button>Sport</button>
-          <button>Tech</button>
-          <button>World</button>
-          <button>Finance</button>
-          <button>Politics</button>
           <button>Business</button>
-          <button>Economics</button>
           <button>Entertainment</button>
-          <button>Beauty</button>
-          <button>Travel</button>
-          <button>Music</button>
-          <button>Food</button>
-          <button>Science</button>
-          <button>Gaming</button>
-          <button>Energy</button>
+          <button>General</button>    
+          <button>Health</button>                        
+          <button>Science</button>          
+          <button>Sport</button>
+          <button>Technology</button>
         </div>
       </section>
       <section id="putnews">
-        <div class="row newslistpad">
-          <div class="col-lg-4">
-            <img class="imgsize"
-              src="https://static01.nyt.com/images/2024/02/11/multimedia/11pol-trump-nato-phfw/11pol-trump-nato-phfw-jumbo.jpg?quality=75&auto=webp" 
-            />
-          </div>
-          <div class="col-lg-8">
-            <h2>test</h2>
-            <p>hhhhhhhhhhhhhhhhhhhhhhhhh</p>
-            KBS * date
-          </div>
-        </div>
+
       </section>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-
-
+    <script src="https://kit.fontawesome.com/621270f1c9.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.0/moment.min.js"></script>
     <script src="main.js"></script>
   </body>
 </html>
