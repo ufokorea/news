@@ -6,6 +6,7 @@ let searchstart = document.getElementById("searchstart");
 let menus=document.querySelectorAll(".buttonstyle button");
 let sidemenus=document.querySelectorAll(".side-menu-list button");
 let newslist = [];
+let url=`https://newsapi.org/v2/top-headlines?country=kr&apiKey=${api_key}`;
 
 
 const openNav = () => {
@@ -42,33 +43,44 @@ for (let i = 0; i < menus.length; i++) {
     });
 }
 
+let getitem = async (sitem)=> {
+    
+    try{
+        const response = await fetch(url);
+        const data = await response.json();
+            if(data.status === "error") {
+                throw new Error(data.message);
+            }
+
+        newslist = data.articles;
+            if(newslist.length === 0) {
+                throw new Error("There is no data matching your search term");
+            }
+
+        randering();
+    
+    } catch(error) {
+        
+        errorrandering(error.message);
+
+    }
+}
+
 let getsearchitem = async (sitem)=> {
 
     url = new URL(`https://newsapi.org/v2/top-headlines?country=kr&q=${sitem}&apiKey=${api_key}`)
-    const response = await fetch(url);
-    const data = await response.json();
-    newslist = data.articles;
-    console.log(data)
-    randering();
+    getitem();
 }
 
 let getmenuitem = async (menu)=> {
 
     url = new URL(`https://newsapi.org/v2/top-headlines?country=kr&category=${menu}&apiKey=${api_key}`)
-    const response = await fetch(url);
-    const data = await response.json();
-    newslist = data.articles;
-    console.log(data)
-    randering();
+    getitem();
 }
 
 let getnewslist = async ()=> {
     url = new URL(`https://newsapi.org/v2/top-headlines?country=kr&apiKey=${api_key}`)
-    const response = await fetch(url);
-    const data = await response.json();
-    newslist = data.articles;
-    console.log(data)
-    randering();
+    getitem();
 }
 
 randering = () => {
@@ -94,6 +106,18 @@ randering = () => {
 
   document.getElementById("putnews").innerHTML=putHtml;
 
+}
+
+errorrandering = (message) => {
+    const putHtml = `<br><div class="row">
+        <div >
+            <div class="alert alert-danger" role="alert">
+            ${message}
+            </div>
+        
+        </div>
+    </div>`;
+    document.getElementById("putnews").innerHTML=putHtml;
 }
 
 getnewslist();
