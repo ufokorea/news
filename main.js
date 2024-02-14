@@ -5,7 +5,7 @@ let searchstart = document.getElementById("searchstart");
 let menus=document.querySelectorAll(".buttonstyle button");
 let sidemenus=document.querySelectorAll(".side-menu-list button");
 let newslist = [];
-let url=`https://newsapi.org/v2/top-headlines?country=kr&apiKey=${api_key}`;
+let url= new URL(`https://newsapi.org/v2/top-headlines?country=kr&apiKey=${api_key}`);
 let pageSize=5;
 let page = 1;
 
@@ -47,6 +47,8 @@ for (let i = 0; i < menus.length; i++) {
 let getitem = async (sitem)=> {
     
     try{
+        url.searchParams.set("page",page);
+        url.searchParams.set("pageSize",pageSize);
         const response = await fetch(url);
         const data = await response.json();
             if(data.status === "error") {
@@ -70,18 +72,18 @@ console.log(data)
 
 let getsearchitem = async (sitem)=> {
 
-    url = new URL(`https://newsapi.org/v2/top-headlines?country=kr&q=${sitem}&pageSize=${pageSize}&page=${page}&apiKey=${api_key}`)
+    url = new URL(`https://newsapi.org/v2/top-headlines?country=us&q=${sitem}&apiKey=${api_key}`)
     getitem();
 }
 
 let getmenuitem = async (menu)=> {
 
-    url = new URL(`https://newsapi.org/v2/top-headlines?country=kr&category=${menu}&pageSize=${pageSize}&page=${page}&apiKey=${api_key}`)
+    url = new URL(`https://newsapi.org/v2/top-headlines?country=us&category=${menu}&apiKey=${api_key}`)
     getitem();
 }
 
 let getnewslist = async (page)=> {
-    url = new URL(`https://newsapi.org/v2/top-headlines?country=kr&pageSize=${pageSize}&page=${page}&apiKey=${api_key}`)
+    url = new URL(`https://newsapi.org/v2/top-headlines?country=us&apiKey=${api_key}`)
     getitem();
 }
 

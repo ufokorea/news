@@ -22,9 +22,14 @@
     background-color: white;
 }
 
+.buttonstyle button:hover{
+    background-color: burlywood;
+}
+
 .newslistpad{
     border-bottom: 1px solid black;
     padding: 10px 0px;
+    
 }
 
 .row{
@@ -52,7 +57,7 @@
     z-index: 1;
     top: 0;
     left: 0;
-    background-color: burlywood;
+    background-color: rgb(143, 120, 90);
     overflow-x: hidden;
     transition: 0.5s;
     padding-top: 60px;
