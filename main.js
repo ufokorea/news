@@ -1,12 +1,13 @@
 const api_key = "49f195a4d85e4de2a00970d6a3d37c15";
 
-
 let searchitem = document.getElementById("searchitem");
 let searchstart = document.getElementById("searchstart"); 
 let menus=document.querySelectorAll(".buttonstyle button");
 let sidemenus=document.querySelectorAll(".side-menu-list button");
 let newslist = [];
 let url=`https://newsapi.org/v2/top-headlines?country=kr&apiKey=${api_key}`;
+let pageSize=5;
+let page = 1;
 
 
 const openNav = () => {
@@ -56,8 +57,9 @@ let getitem = async (sitem)=> {
             if(newslist.length === 0) {
                 throw new Error("There is no data matching your search term");
             }
-
+console.log(data)
         randering();
+        pagenation(data.totalResults);
     
     } catch(error) {
         
@@ -68,18 +70,18 @@ let getitem = async (sitem)=> {
 
 let getsearchitem = async (sitem)=> {
 
-    url = new URL(`https://newsapi.org/v2/top-headlines?country=kr&q=${sitem}&apiKey=${api_key}`)
+    url = new URL(`https://newsapi.org/v2/top-headlines?country=kr&q=${sitem}&pageSize=${pageSize}&page=${page}&apiKey=${api_key}`)
     getitem();
 }
 
 let getmenuitem = async (menu)=> {
 
-    url = new URL(`https://newsapi.org/v2/top-headlines?country=kr&category=${menu}&apiKey=${api_key}`)
+    url = new URL(`https://newsapi.org/v2/top-headlines?country=kr&category=${menu}&pageSize=${pageSize}&page=${page}&apiKey=${api_key}`)
     getitem();
 }
 
-let getnewslist = async ()=> {
-    url = new URL(`https://newsapi.org/v2/top-headlines?country=kr&apiKey=${api_key}`)
+let getnewslist = async (page)=> {
+    url = new URL(`https://newsapi.org/v2/top-headlines?country=kr&pageSize=${pageSize}&page=${page}&apiKey=${api_key}`)
     getitem();
 }
 
@@ -107,6 +109,41 @@ randering = () => {
   document.getElementById("putnews").innerHTML=putHtml;
 
 }
+
+let pagenation = async (totalpage)=> {
+
+    const groupsize=5;
+    totalresult = Math.ceil(totalpage / pageSize);
+    totalgruop = Math.ceil(totalresult / groupsize);
+    const pagegroup = Math.ceil(page / groupsize);
+    let lastpage = pagegroup * groupsize;
+    let firstpage = lastpage - (groupsize -1);
+
+    lastpage = lastpage > totalresult ? totalresult : lastpage;
+       
+    let putpage =`<nav aria-label="Page navigation example>"
+    <ul class="pagination">`;
+        if(pagegroup > 1 ) {putpage += `<li class="page-item "} "}><a class="page-link" onClick="changePage(1);">&laquo;&laquo;</a></li>
+                                        <li class="page-item ${page === 1 ? "disabled" : ""} "}><a class="page-link" onClick="changePage(${page-1});">&laquo;</a></li>`;}
+        
+        for(i=firstpage; i<= lastpage; i++) {
+            putpage += `<li class="page-item ${i === page ? "active" : ""}" onClick="changePage(${i});"><a class="page-link" >${i}</a></li>`;
+        }
+
+        if(pagegroup < totalgruop) {putpage += `<li class="page-item ${totalresult === lastpage ? "disabled" : ""}"><a class="page-link"  onClick="changePage(${page+1});">&raquo;</a></li>
+                                                <li class="page-item "><a class="page-link"  onClick="changePage(${totalresult});">&raquo;&raquo;</a></li>`;}
+        putpage += `</ul> </nav>`;
+
+    document.getElementById("pagenate").innerHTML=putpage;
+}
+
+let changePage = (newPage) => {
+    if (newPage >= 1 && newPage <= totalresult) { 
+        page = newPage; 
+        console.log(page)
+        getnewslist(page); 
+    }
+};
 
 errorrandering = (message) => {
     const putHtml = `<br><div class="row">
