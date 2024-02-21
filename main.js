@@ -1,11 +1,11 @@
-const api_key = "49f195a4d85e4de2a00970d6a3d37c15";
+const endpoint = "https://news2024.netlify.app";
 
 let searchitem = document.getElementById("searchitem");
 let searchstart = document.getElementById("searchstart"); 
 let menus=document.querySelectorAll(".buttonstyle button");
 let sidemenus=document.querySelectorAll(".side-menu-list button");
 let newslist = [];
-let url= new URL(`https://newsapi.org/v2/top-headlines?country=kr&apiKey=${api_key}`);
+let url= new URL(`${endpoint}`);
 let pageSize=5;
 let page = 1;
 
@@ -72,18 +72,18 @@ console.log(data)
 
 let getsearchitem = async (sitem)=> {
 
-    url = new URL(`https://newsapi.org/v2/top-headlines?country=us&q=${sitem}&apiKey=${api_key}`)
+    url = new URL(`${endpoint}?country=us&q=${sitem}`)
     getitem();
 }
 
 let getmenuitem = async (menu)=> {
 
-    url = new URL(`https://newsapi.org/v2/top-headlines?country=us&category=${menu}&apiKey=${api_key}`)
+    url = new URL(`${endpoint}?country=us&category=${menu}`)
     getitem();
 }
 
 let getnewslist = async (page)=> {
-    url = new URL(`https://newsapi.org/v2/top-headlines?country=us&apiKey=${api_key}`)
+    url = new URL(`${endpoint}?country=us`)
     getitem();
 }
 
