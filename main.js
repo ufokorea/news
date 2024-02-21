@@ -1,4 +1,4 @@
-const endpoint = "https://news2024.netlify.app";
+const endpoint = "https://news2024.netlify.app/top-headlines";
 
 let searchitem = document.getElementById("searchitem");
 let searchstart = document.getElementById("searchstart"); 
