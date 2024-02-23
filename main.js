@@ -77,7 +77,7 @@ let getsearchitem = async (sitem)=> {
 }
 
 let getmenuitem = async (menu)=> {
-
+    menu = menu === "all" ? "": menu;
     url = new URL(`${endpoint}?country=us&category=${menu}`)
     getitem();
 }
